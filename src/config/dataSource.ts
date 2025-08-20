@@ -1,21 +1,23 @@
 import { DataSource } from "typeorm";
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER, NODE_ENV } from "./envs";
 import { User } from "../entities/User";
 import { Credential } from "../entities/Credential";
 import { Order } from "../entities/Order";
 import { Category } from "../entities/Category";
 import { Product } from "../entities/Product";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  url: process.env.DATABASE_URL, // Render te da esta URL completa
-  synchronize: true, // ⚠️ solo para desarrollo
+  host: DB_HOST,
+  port: DB_PORT,
+  username: DB_USER,
+  password: DB_PASSWORD,
+  database: DB_NAME,
+  synchronize: true,
+  dropSchema: true,
   logging: false,
   entities: [User, Credential, Order, Product, Category],
-  ssl: {
-    rejectUnauthorized: false, // necesario en Render
-  },
+  subscribers: [],
+  migrations: [],
+  ssl: NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
 });
-
