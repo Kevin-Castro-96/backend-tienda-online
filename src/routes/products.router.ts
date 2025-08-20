@@ -3,11 +3,14 @@ import { getProducts, getProductById, addProduct, getProductsByCategory, getCate
 
 const router = Router();
 
+// Rutas específicas primero
 router.get("/categories", getCategories);
+router.get("/categories/:id", getProductsByCategory);
+
+// Luego las generales
 router.get("/", getProducts);
 router.post("/", addProduct);
 router.get("/:id", getProductById);
-router.get("/categories/:id", getProductsByCategory);
 
 
 export default router;
